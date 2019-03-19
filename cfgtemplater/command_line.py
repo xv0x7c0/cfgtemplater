@@ -1,7 +1,9 @@
-import sys, yaml, os
+import os
+import sys
 from optparse import OptionParser
-from cfgtemplater.config_template import ConfigTemplate
+import yaml
 import jinja2.exceptions
+from cfgtemplater.config_template import ConfigTemplate
 
 usage = "usage: %prog [options] TEMPLATE"
 parser = OptionParser(usage=usage)

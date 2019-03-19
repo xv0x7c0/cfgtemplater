@@ -1,7 +1,7 @@
-from cfgtemplater.base_template import BaseTemplate
 from jinja2.nativetypes import NativeEnvironment
 from jinja2 import StrictUndefined
 from jinja2.loaders import FileSystemLoader
+from cfgtemplater.base_template import BaseTemplate
 
 class ConfigTemplate(BaseTemplate):
     def __init__(self, filepath, mandatory_metadata=[]):
