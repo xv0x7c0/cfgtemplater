@@ -45,13 +45,13 @@ def main():
 
     try:
         print(template.render(final_variables))
-        exit(0)
+        sys.exit(0)
     except jinja2.exceptions.UndefinedError as ex:
         print("ERROR: Variable", ex)
-        exit(1)
+        sys.exit(1)
     except jinja2.exceptions.TemplateNotFound as ex:
         print("ERROR: Subtemplate not found:", ex)
-        exit(1)
+        sys.exit(2)
 
 if __name__ == "__main__":
 	main()
