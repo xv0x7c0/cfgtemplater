@@ -6,6 +6,14 @@ import yaml
 
 
 class BaseTemplate:
+    
+    YAML_SPLIT_RE = re.compile("""
+                               \A(?:^---[\n\r])
+                               (?P<yaml>.*)
+                               (?:^---[\n\r])
+                               (?P<template>.*)
+                               """,
+                               re.MULTILINE|re.DOTALL|re.VERBOSE)
 
     def __init__(self, filepath, mandatory_metadata=[]):
         self.filepath           = os.path.abspath(filepath)
@@ -18,16 +26,9 @@ class BaseTemplate:
 
     def init_split(self):
         """Split given template in two parts : YAML front matter and JINJA2 part"""
-        r = re.compile("""
-                        \A(?:^---[\n\r])
-                        (?P<yaml>.*)
-                        (?:^---[\n\r])
-                        (?P<template>.*)
-                        """,
-                        re.MULTILINE|re.DOTALL|re.VERBOSE)
         try:
             with open(self.filepath, 'r') as f:
-                m = re.match(r, f.read())
+                m = re.match(BaseTemplate.YAML_SPLIT_RE, f.read())
                 self.header, self.content = m.group(1,2)
         except IOError:
             print(IOError(errno.ENOENT, os.strerror(errno.ENOENT), filepath))
