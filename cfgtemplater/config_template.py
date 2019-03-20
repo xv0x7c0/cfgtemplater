@@ -14,21 +14,16 @@ class ConfigTemplate(BaseTemplate):
         self.init_yaml()
         self.init_metadata()
         self.init_environment()
-        self.init_template()
         self.init_defaults()
 
     def init_environment(self):
-        """ Initiliazes Jinja2 environment """
+        """ Initiliazes default Jinja2 environment """
         self.environment = NativeEnvironment(
                 loader=FileSystemLoader(self.directory),
                 lstrip_blocks=True,
                 trim_blocks=True,
                 undefined=StrictUndefined
                 )
-
-    def init_template(self):
-        """ Initializes Jinja2 template based on pre-defined environment """
-        self.template = self.environment.from_string(self.content)
 
     def init_defaults(self):
         """ Initializes a dict of default values based on YAML variables """
@@ -41,9 +36,10 @@ class ConfigTemplate(BaseTemplate):
 
     def render(self, attributes={}):
         """ Renders the template, merging user values with default values """
+        template = self.environment.from_string(self.content)
         variables = self.defaults.copy()
         variables.update(attributes)
-        return self.template.render(variables)
+        return template.render(variables)
 
     def save(self, filename, attributes={}):
         """ Save rendered template in a file """
