@@ -10,9 +10,10 @@ description = "A simple YAML/Jinja2 config generator."
 parser = argparse.ArgumentParser(description=description)
 
 parser.add_argument('-y',
-                    metavar="FILE",
+                    metavar="YAML",
                     dest='yaml',
-                    help='YAML file')
+                    help='YAML file',
+                    action="append")
 
 parser.add_argument('-p',
                     metavar='KEY=VALUE',
@@ -21,7 +22,7 @@ parser.add_argument('-p',
                     action="append")
 
 parser.add_argument('filepath',
-                    metavar='FILE',
+                    metavar='TEMPLATE',
                     help='template')
 
 
@@ -33,9 +34,10 @@ def main():
     final_variables = template.defaults.copy()
 
     if args.yaml:
-        with open(args.yaml, 'r') as f:
-            yaml_variables = yaml.load(f.read())
-            final_variables.update(yaml_variables)
+        for yaml_file in args.yaml:
+            with open(yaml_file, 'r') as f:
+                yaml_variables = yaml.load(f.read())
+                final_variables.update(yaml_variables)
 
     if args.cli:
         cli_variables = dict(pair.split("=") for pair in args.cli)
