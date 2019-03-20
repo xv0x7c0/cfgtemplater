@@ -6,10 +6,11 @@ from cfgtemplater.base_template import BaseTemplate
 
 
 class ConfigTemplate(BaseTemplate):
-    def __init__(self, filepath, mandatory_metadata=[]):
-        super().__init__(filepath, mandatory_metadata)
+    def __init__(self, filepath):
+        super().__init__(filepath)
 
     def init(self):
+        self.init_split()
         self.init_yaml()
         self.init_metadata()
         self.init_environment()
@@ -32,10 +33,11 @@ class ConfigTemplate(BaseTemplate):
     def init_defaults(self):
         """ Initializes a dict of default values based on YAML variables """
         self.defaults = {}
-        if 'variables' in self.yaml.keys():
-            for variable, attributes in self.yaml['variables'].items():
-                if 'default' in attributes:
-                    self.defaults[variable] = attributes['default']
+        if self.yaml:
+            if 'variables' in self.yaml.keys():
+                for variable, attributes in self.yaml['variables'].items():
+                    if 'default' in attributes:
+                        self.defaults[variable] = attributes['default']
 
     def render(self, attributes={}):
         """ Renders the template, merging user values with default values """
