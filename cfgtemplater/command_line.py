@@ -1,40 +1,44 @@
+import argparse
 import os
 import sys
-from optparse import OptionParser
 
 import jinja2.exceptions
 import yaml
-
 from cfgtemplater.config_template import ConfigTemplate
 
-usage = "usage: %prog [options] TEMPLATE"
-parser = OptionParser(usage=usage)
+description = "A simple YAML/Jinja2 config generator."
+parser = argparse.ArgumentParser(description=description)
 
-parser.add_option('-y', 
-                  metavar="FILE", 
-                  dest='yaml', 
-                  help='Key/value YAML file')
+parser.add_argument('-y',
+                    metavar="FILE",
+                    dest='yaml',
+                    help='YAML file')
 
-parser.add_option('-p',
-                  metavar='KEY=VALUE', 
-                  dest='cli', 
-                  help='Key/value pair', 
-                  action="append")
+parser.add_argument('-p',
+                    metavar='KEY=VALUE',
+                    dest='cli',
+                    help='key/value pair',
+                    action="append")
+
+parser.add_argument('filepath',
+                    metavar='FILE',
+                    help='template')
+
 
 def main():
-    (options, args) = parser.parse_args()
+    args = parser.parse_args()
 
-    template = ConfigTemplate(args[0])
+    template = ConfigTemplate(args.filepath)
 
     final_variables = template.defaults.copy()
 
-    if options.yaml:
-        with open(options.yaml, 'r') as f:
+    if args.yaml:
+        with open(args.yaml, 'r') as f:
             yaml_variables = yaml.load(f.read())
             final_variables.update(yaml_variables)
 
-    if options.cli:
-        cli_variables = dict(pair.split("=") for pair in options.cli)
+    if args.cli:
+        cli_variables = dict(pair.split("=") for pair in args.cli)
         final_variables.update(cli_variables)
 
     try:
