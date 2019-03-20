@@ -1,8 +1,10 @@
 import os
 import sys
 from optparse import OptionParser
-import yaml
+
 import jinja2.exceptions
+import yaml
+
 from cfgtemplater.config_template import ConfigTemplate
 
 usage = "usage: %prog [options] TEMPLATE"
