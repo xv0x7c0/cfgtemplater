@@ -3,6 +3,7 @@ from jinja2.loaders import FileSystemLoader
 from jinja2.nativetypes import NativeEnvironment
 
 from cfgtemplater.base_template import BaseTemplate
+from cfgtemplater.extensions import ip_filters, ip_tests
 
 
 class ConfigTemplate(BaseTemplate):
@@ -14,6 +15,7 @@ class ConfigTemplate(BaseTemplate):
         self.init_yaml()
         self.init_metadata()
         self.init_environment()
+        self.init_default_extensions()
         self.init_defaults()
 
     def init_environment(self):
@@ -24,6 +26,14 @@ class ConfigTemplate(BaseTemplate):
                 trim_blocks=True,
                 undefined=StrictUndefined
                 )
+
+    def init_default_extensions(self):
+        """Load all filters/tests from default cfgtemplater extensions
+           and attach them to the default template environment"""
+        for ext in [ip_filters, ip_tests]:
+            for attr in [getattr(ext, f) for f in dir(ext)]:
+                if callable(attr):
+                    self.environment.filters[attr.__name__] = attr
 
     def init_defaults(self):
         """ Initializes a dict of default values based on YAML variables """

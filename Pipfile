@@ -7,6 +7,7 @@ name = "pypi"
 "jinja2" = "*"
 ipaddress = "*"
 pyyaml = "*"
+pytest = "*"
 
 [dev-packages]
 pytest = "*"
