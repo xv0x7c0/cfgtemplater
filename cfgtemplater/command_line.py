@@ -1,9 +1,11 @@
 import argparse
 import os
 import sys
+from importlib.machinery import SourceFileLoader
 
 import jinja2.exceptions
 import yaml
+
 from cfgtemplater.config_template import ConfigTemplate
 
 description = "A simple YAML/Jinja2 config generator."
@@ -21,10 +23,19 @@ parser.add_argument('-p',
                     help='key/value pair',
                     action="append")
 
+parser.add_argument('-e',
+                    metavar='FILE',
+                    dest='extensions',
+                    help='Jinja2 extensions modules',
+                    action='append')
+
 parser.add_argument('filepath',
                     metavar='TEMPLATE',
                     help='template')
 
+def load_module(filepath):
+  loader = SourceFileLoader('extensions', filepath)
+  return loader.load_module()
 
 def main():
     args = parser.parse_args()
@@ -32,6 +43,11 @@ def main():
     template = ConfigTemplate(args.filepath)
 
     final_variables = template.defaults.copy()
+
+    if args.extensions:
+        for extension in args.extensions:
+            module = load_module(extension)
+            template.load_extension(module)
 
     if args.yaml:
         for yaml_file in args.yaml:

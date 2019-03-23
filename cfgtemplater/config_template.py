@@ -28,12 +28,9 @@ class ConfigTemplate(BaseTemplate):
                 )
 
     def init_default_extensions(self):
-        """Load all filters/tests from default cfgtemplater extensions
-           and attach them to the default template environment"""
-        for ext in [ip_filters, ip_tests]:
-            for attr in [getattr(ext, f) for f in dir(ext)]:
-                if callable(attr):
-                    self.environment.filters[attr.__name__] = attr
+        """Load default cfgtemplater extensions"""
+        for module in [ip_filters, ip_tests]:
+            self.load_extension(module)
 
     def init_defaults(self):
         """ Initializes a dict of default values based on YAML variables """
@@ -43,6 +40,12 @@ class ConfigTemplate(BaseTemplate):
                 for variable, attributes in self.yaml['variables'].items():
                     if 'default' in attributes:
                         self.defaults[variable] = attributes['default']
+
+    def load_extension(self, module):
+        """Load jinja2 extensions from a python module"""
+        for attr in [getattr(module, f) for f in dir(module)]:
+            if callable(attr):
+                self.environment.filters[attr.__name__] = attr
 
     def render(self, attributes={}):
         """ Renders the template, merging user values with default values """
