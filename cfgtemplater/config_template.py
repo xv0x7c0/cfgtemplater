@@ -1,6 +1,5 @@
-from jinja2 import StrictUndefined
+from jinja2 import Environment, StrictUndefined
 from jinja2.loaders import FileSystemLoader
-from jinja2.nativetypes import NativeEnvironment
 
 from cfgtemplater.base_template import BaseTemplate
 from cfgtemplater.extensions import ip_filters, ip_tests
@@ -20,7 +19,7 @@ class ConfigTemplate(BaseTemplate):
 
     def init_environment(self):
         """ Initiliazes default Jinja2 environment """
-        self.environment = NativeEnvironment(
+        self.environment = Environment(
                 loader=FileSystemLoader(self.directory),
                 lstrip_blocks=True,
                 trim_blocks=True,
