@@ -106,3 +106,240 @@ This is an example file.
 
 TEST
 ```
+
+## Integrated filters and tests
+
+### IP filters
+
+#### first_address
+
+```jinja
+{{ ipv4_net | first_address }}
+{{ ipv6_net | first_address }}
+```
+```
+192.0.2.1/24
+2001:db8::1/120
+```
+
+#### last_address
+
+```jinja
+{{ ipv4_net | last_address }}
+{{ ipv6_net | last_address }}
+```
+```
+192.0.2.254/24
+2001:db8::ff/120
+```
+
+#### address
+
+```jinja
+{{ ipv4_net | address }}
+{{ ipv6_net | address }}
+```
+```
+192.0.2.0
+2001:db8::
+```
+
+#### network
+
+```jinja
+{{ ipv4_net | first_address | network }}
+{{ ipv6_net | first_address | network }}
+```
+```
+192.0.2.0/24
+2001:db8::/120
+```
+
+#### broadcast
+
+```jinja
+{{ ipv4_net | broadcast }}
+{{ ipv6_net | broadcast }}
+```
+```
+192.0.2.255/24
+2001:db8::ff/120
+```
+
+#### prefixlen
+
+```jinja
+{{ ipv4_net | prefixlen }}
+{{ ipv6_net | prefixlen }}
+```
+```
+24
+120
+
+#### netmask
+
+```jinja
+{{ ipv4_net | netmask }}
+{{ ipv6_net | netmask }}
+```
+```
+255.255.255.0
+ffff:ffff:ffff:ffff:ffff:ffff:ffff:ff00
+```
+
+#### hostmask
+
+```jinja
+{{ ipv4_net | first_address | hostmask }}
+{{ ipv6_net | first_address | hostmask }}
+```
+```
+0.0.0.255
+::ff
+```
+
+#### compress
+
+```jinja
+{{ '192.000.002.001' | compress }}
+{{ '2001:0db8:0000:0000:0000:0000:0000:0001' | compress }}
+```
+```
+192.0.2.1
+2001:db8::1
+```
+
+#### uncompress
+
+```jinja
+{{ '192.0.2.1' | uncompress }}
+{{ '2001:db8::1' | uncompress }}
+```
+```
+192.000.002.001
+2001:0db8:0000:0000:0000:0000:0000:0001
+
+#### octets
+
+```jinja
+{% for octet in ipv4_net | octets %}
+  {{ octet }}
+{% endfor %}
+```
+```
+  192
+  0
+  2
+  0
+```
+
+#### hextets
+
+```jinja
+{% for hextet in ipv6_net | hextets %}
+  {{ hextet }}
+{% endfor %}
+```
+```
+  2001
+  0db8
+  0000
+  0000
+  0000
+  0000
+  0000
+  0000
+```
+
+### IP tests
+
+#### is_ip
+
+```jinja
+{{ ipv4_net | is_ip }}
+{{ ipv6_net | is_ip }}
+{{ 'test' | is_ip
+```
+```
+True
+True
+False
+```
+
+#### is_ipv4
+
+```jinja
+{{ ipv4_net | is_ipv4 }}
+{{ ipv6_net | is_ipv4 }}
+```
+```
+True
+False
+```
+
+#### is_ipv6
+
+```jinja
+{{ ipv6_net | is_ipv6 }}
+{{ ipv4_net | is_ipv6 }}
+```
+```
+True
+False
+```
+
+#### is_ip_net
+
+```jinja
+{{ ipv4_net | is_ip_net }}
+{{ ipv6_net | is_ip_net }}
+{{ ipv6_net | first_address | is_ip_net }}
+{{ ipv6_net | first_address | is_ip_net }}
+```
+```
+True
+True
+False
+False
+```
+
+#### is_ipv4_net
+
+```jinja
+{{ ipv4_net | is_ipv4_net }}
+{{ ipv6_net | is_ipv4_net }}
+{{ ipv4_net | first_address | is_ipv4_net }}
+{{ ipv6_net | first_address | is_ipv4_net }}
+```
+```
+True
+False
+False
+False
+```
+
+#### is_ipv6_net
+
+```jinja
+{{ ipv6_net | is_ipv6_net }}
+{{ ipv4_net | is_ipv6_net }}
+{{ ipv6_net | first_address | is_ipv4_net }}
+{{ ipv4_net | first_address | is_ipv4_net }}
+```
+```
+True
+False
+False
+False
+```
+
+#### is_ipv4_host
+
+```jinja
+{{ ipv4_net | first_address | is_ipv4_host }}
+{{ ipv4_net | is_ipv4_host }}
+```
+```
+True
+False
+```

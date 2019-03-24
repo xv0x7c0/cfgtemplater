@@ -1,0 +1,251 @@
+## Integrated filters and tests
+
+### IP filters
+{% set ipv4_net = '192.0.2.0/24' %}
+{% set ipv6_net = '2001:db8::/120' %}
+
+#### first_address
+{% raw %}
+```jinja
+{{ ipv4_net | first_address }}
+{{ ipv6_net | first_address }}
+```
+{% endraw %}
+```
+{{ ipv4_net | first_address }}
+{{ ipv6_net | first_address }}
+```
+
+#### last_address
+{% raw %}
+```jinja
+{{ ipv4_net | last_address }}
+{{ ipv6_net | last_address }}
+```
+{% endraw %}
+```
+{{ ipv4_net | last_address }}
+{{ ipv6_net | last_address }}
+```
+
+#### address
+{% raw %}
+```jinja
+{{ ipv4_net | address }}
+{{ ipv6_net | address }}
+```
+{% endraw %}
+```
+{{ ipv4_net | address }}
+{{ ipv6_net | address }}
+```
+
+#### network
+{% raw %}
+```jinja
+{{ ipv4_net | first_address | network }}
+{{ ipv6_net | first_address | network }}
+```
+{% endraw %}
+```
+{{ ipv4_net | first_address | network }}
+{{ ipv6_net | first_address | network }}
+```
+
+#### broadcast
+{% raw %}
+```jinja
+{{ ipv4_net | broadcast }}
+{{ ipv6_net | broadcast }}
+```
+{% endraw %}
+```
+{{ ipv4_net | broadcast }}
+{{ ipv6_net | broadcast }}
+```
+
+#### prefixlen
+{% raw %}
+```jinja
+{{ ipv4_net | prefixlen }}
+{{ ipv6_net | prefixlen }}
+```
+{% endraw %}
+```
+{{ ipv4_net | prefixlen }}
+{{ ipv6_net | prefixlen }}
+
+#### netmask
+{% raw %}
+```jinja
+{{ ipv4_net | netmask }}
+{{ ipv6_net | netmask }}
+```
+{% endraw %}
+```
+{{ ipv4_net | netmask }}
+{{ ipv6_net | netmask }}
+```
+
+#### hostmask
+{% raw %}
+```jinja
+{{ ipv4_net | first_address | hostmask }}
+{{ ipv6_net | first_address | hostmask }}
+```
+{% endraw %}
+```
+{{ ipv4_net | first_address | hostmask }}
+{{ ipv6_net | first_address | hostmask }}
+```
+
+#### compress
+{% raw %}
+```jinja
+{{ '192.000.002.001' | compress }}
+{{ '2001:0db8:0000:0000:0000:0000:0000:0001' | compress }}
+```
+{% endraw %}
+```
+{{ '192.000.002.001' | compress }}
+{{ '2001:0db8:0000:0000:0000:0000:0000:0001' | compress }}
+```
+
+#### uncompress
+{% raw %}
+```jinja
+{{ '192.0.2.1' | uncompress }}
+{{ '2001:db8::1' | uncompress }}
+```
+{% endraw %}
+```
+{{ '192.0.2.1' | uncompress }}
+{{ '2001:db8::1' | uncompress }}
+
+#### octets
+{% raw %}
+```jinja
+{% for octet in ipv4_net | octets %}
+  {{ octet }}
+{% endfor %}
+```
+{% endraw %}
+```
+{% for octet in ipv4_net | octets %}
+  {{ octet }}
+{% endfor %}
+```
+
+#### hextets
+{% raw %}
+```jinja
+{% for hextet in ipv6_net | hextets %}
+  {{ hextet }}
+{% endfor %}
+```
+{% endraw %}
+```
+{% for hextet in ipv6_net | hextets %}
+  {{ hextet }}
+{% endfor %}
+```
+
+### IP tests
+
+#### is_ip
+{% raw %}
+```jinja
+{{ ipv4_net | is_ip }}
+{{ ipv6_net | is_ip }}
+{{ 'test' | is_ip
+```
+{% endraw %}
+```
+{{ ipv4_net | is_ip }}
+{{ ipv6_net | is_ip }}
+{{ 'test' | is_ip }}
+```
+
+#### is_ipv4
+{% raw %}
+```jinja
+{{ ipv4_net | is_ipv4 }}
+{{ ipv6_net | is_ipv4 }}
+```
+{% endraw %}
+```
+{{ ipv4_net | is_ipv4 }}
+{{ ipv6_net | is_ipv4 }}
+```
+
+#### is_ipv6
+{% raw %}
+```jinja
+{{ ipv6_net | is_ipv6 }}
+{{ ipv4_net | is_ipv6 }}
+```
+{% endraw %}
+```
+{{ ipv6_net | is_ipv6 }}
+{{ ipv4_net | is_ipv6 }}
+```
+
+#### is_ip_net
+{% raw %}
+```jinja
+{{ ipv4_net | is_ip_net }}
+{{ ipv6_net | is_ip_net }}
+{{ ipv6_net | first_address | is_ip_net }}
+{{ ipv6_net | first_address | is_ip_net }}
+```
+{% endraw %}
+```
+{{ ipv4_net | is_ip_net }}
+{{ ipv6_net | is_ip_net }}
+{{ ipv4_net | first_address | is_ip_net }}
+{{ ipv6_net | first_address | is_ip_net }}
+```
+
+#### is_ipv4_net
+{% raw %}
+```jinja
+{{ ipv4_net | is_ipv4_net }}
+{{ ipv6_net | is_ipv4_net }}
+{{ ipv4_net | first_address | is_ipv4_net }}
+{{ ipv6_net | first_address | is_ipv4_net }}
+```
+{% endraw %}
+```
+{{ ipv4_net | is_ipv4_net }}
+{{ ipv6_net | is_ipv4_net }}
+{{ ipv4_net | first_address | is_ipv4_net }}
+{{ ipv6_net | first_address | is_ipv4_net }}
+```
+
+#### is_ipv6_net
+{% raw %}
+```jinja
+{{ ipv6_net | is_ipv6_net }}
+{{ ipv4_net | is_ipv6_net }}
+{{ ipv6_net | first_address | is_ipv4_net }}
+{{ ipv4_net | first_address | is_ipv4_net }}
+```
+{% endraw %}
+```
+{{ ipv6_net | is_ipv6_net }}
+{{ ipv4_net | is_ipv6_net }}
+{{ ipv6_net | first_address | is_ipv4_net }}
+{{ ipv4_net | first_address | is_ipv4_net }}
+```
+
+#### is_ipv4_host
+{% raw %}
+```jinja
+{{ ipv4_net | first_address | is_ipv4_host }}
+{{ ipv4_net | is_ipv4_host }}
+```
+{% endraw %}
+```
+{{ ipv4_net | first_address | is_ipv4_host }}
+{{ ipv4_net | is_ipv4_host }}
+```
