@@ -43,3 +43,9 @@ def test_is_ipv6_net():
     assert ip_tests.is_ipv6_net('192.0.2.1/24') == False
     assert ip_tests.is_ipv6_net('2001::/127') == True
     assert ip_tests.is_ipv6_net('blah') == False
+
+def test_is_ipv4_host():
+    assert ip_tests.is_ipv4_host('192.0.2.1/24') == True
+    assert ip_tests.is_ipv4_host('192.0.2.0/24') == False
+    assert ip_tests.is_ipv4_host('192.0.2.255/24') == False
+    assert ip_tests.is_ipv4_host('blah') == False

@@ -41,3 +41,14 @@ def is_ipv6_net(addr):
         return True
     except:
         return False
+
+def is_ipv4_host(addr):
+    try:
+        address = ipaddress.IPv4Interface(addr)
+        network = address.network
+        if address.ip in network.hosts():
+          return True
+        else:
+          return False
+    except:
+        return False
