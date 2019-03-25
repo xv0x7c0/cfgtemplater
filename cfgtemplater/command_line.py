@@ -1,6 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Defiles entry point for CLI
+"""
+
 import argparse
-import os
 import sys
+
 from importlib.machinery import SourceFileLoader
 
 import jinja2.exceptions
@@ -8,38 +14,53 @@ import yaml
 
 from cfgtemplater.config_template import ConfigTemplate
 
-description = "A simple YAML/Jinja2 config generator."
-parser = argparse.ArgumentParser(description=description)
 
-parser.add_argument('-y',
-                    metavar="YAML",
-                    dest='yaml',
-                    help='YAML file',
-                    action="append")
+def get_parser():
+    """Return CLI parser
+    """
+    description = "A simple YAML/Jinja2 config generator."
+    parser = argparse.ArgumentParser(description=description)
 
-parser.add_argument('-p',
-                    metavar='KEY=VALUE',
-                    dest='cli',
-                    help='key/value pair',
-                    action="append")
+    parser.add_argument(
+        '-y',
+        metavar="YAML",
+        dest='yaml',
+        help='YAML file',
+        action="append"
+    )
 
-parser.add_argument('-e',
-                    metavar='FILE',
-                    dest='extensions',
-                    help='Jinja2 extensions modules',
-                    action='append')
+    parser.add_argument(
+        '-p',
+        metavar='KEY=VALUE',
+        dest='cli',
+        help='key/value pair',
+        action="append"
+    )
 
-parser.add_argument('filepath',
-                    metavar='TEMPLATE',
-                    help='template')
+    parser.add_argument(
+        '-e',
+        metavar='FILE',
+        dest='extensions',
+        help='Jinja2 extensions modules',
+        action='append'
+    )
+
+    parser.add_argument(
+        'filepath',
+        metavar='TEMPLATE',
+        help='template'
+    )
+    return parser
+
 
 def load_module(filepath):
-  loader = SourceFileLoader('extensions', filepath)
-  return loader.load_module()
+    """Return extension module
+    """
+    loader = SourceFileLoader('extensions', filepath)
+    return loader.load_module()
 
-def main():
-    args = parser.parse_args()
 
+def main(args):
     template = ConfigTemplate(args.filepath)
 
     final_variables = template.defaults.copy()
@@ -69,5 +90,8 @@ def main():
         print("ERROR: Subtemplate not found:", ex)
         sys.exit(2)
 
+
 if __name__ == "__main__":
-	main()
+    parser = get_parser()
+    args = parser.parse_args()
+    main(args)
