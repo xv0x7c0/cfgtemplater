@@ -63,7 +63,7 @@ class BaseTemplate:
         """
         if self.header:
             try:
-                self.yaml = yaml.load(self.header)
+                self.yaml = yaml.load(self.header, Loader=yaml.FullLoader)
             except yaml.YAMLError as err:
                 print(err)
 
