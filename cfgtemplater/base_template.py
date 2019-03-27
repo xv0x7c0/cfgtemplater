@@ -47,13 +47,13 @@ class BaseTemplate:
         """
         try:
             with open(self.filepath, 'r') as f:
-                m = re.match(BaseTemplate.YAML_SPLIT_RE, f.read())
+                text = f.read()
+                m = re.match(BaseTemplate.YAML_SPLIT_RE, text)
                 if m:
                     self.header, self.content = m.group(1, 2)
                 else:
-                    f.seek(0)
                     self.header = None
-                    self.content = f.read()
+                    self.content = text
         except IOError as err:
             print(type(err), repr(err), traceback.format_exc())
             raise
