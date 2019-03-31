@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"jinja2" = "*"
-ipaddress = "*"
-pyyaml = "*"
+jinja2 = ">=2.10"
+ipaddress = ">=1.0.22"
+pyyaml = ">=5.1"
 
 [dev-packages]
 pytest = "*"
