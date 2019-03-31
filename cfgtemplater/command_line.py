@@ -97,3 +97,6 @@ def main():
     except jinja2.exceptions.TemplateNotFound as ex:
         print("ERROR: Subtemplate not found:", ex)
         sys.exit(2)
+    except jinja2.exceptions.TemplateAssertionError as ex:
+        print("ERROR: Missing filter:", ex)
+        sys.exit(3)
