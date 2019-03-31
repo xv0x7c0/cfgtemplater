@@ -60,7 +60,10 @@ def load_module(filepath):
     return loader.load_module()
 
 
-def main(args):
+def main():
+    parser = get_parser()
+    args = parser.parse_args()
+
     template = ConfigTemplate(args.filepath)
 
     final_variables = template.defaults.copy()
@@ -89,9 +92,3 @@ def main(args):
     except jinja2.exceptions.TemplateNotFound as ex:
         print("ERROR: Subtemplate not found:", ex)
         sys.exit(2)
-
-
-if __name__ == "__main__":
-    parser = get_parser()
-    args = parser.parse_args()
-    main(args)
