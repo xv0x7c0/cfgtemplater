@@ -4,10 +4,9 @@
 """Defiles entry point for CLI
 """
 
-import ast
 import argparse
+import ast
 import sys
-
 from importlib.machinery import SourceFileLoader
 
 import jinja2.exceptions
@@ -84,7 +83,7 @@ def main():
         cli_variables = {}
         for k, v in [pair.split("=") for pair in args.cli]:
             value = ast.literal_eval(v)
-            cli_variables[k] = value 
+            cli_variables[k] = value
 
         final_variables.update(cli_variables)
 

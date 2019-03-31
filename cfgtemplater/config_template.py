@@ -4,10 +4,7 @@
 """Defines Config Template class
 """
 
-from jinja2 import (
-    Environment,
-    StrictUndefined,
-)
+from jinja2 import Environment, StrictUndefined
 from jinja2.loaders import FileSystemLoader
 
 from cfgtemplater.base_template import BaseTemplate
