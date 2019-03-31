@@ -42,6 +42,12 @@ Override variables from CLI
 cfgtemplater -y default_variables -p 'variable1=value1' template.j2
 ```
 
+Pass python literals from CLI
+
+```
+cfgtemplater -p "variable1=[{'name':'varx', 'value':'x'}, {'name':'vary', 'value':'y'}]" template.j2
+```
+
 ## Template
 
 (Main) template may look like this:
