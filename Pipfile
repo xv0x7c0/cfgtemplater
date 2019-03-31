@@ -10,6 +10,9 @@ pyyaml = ">=5.1"
 
 [dev-packages]
 pytest = "*"
+pylint = "*"
+isort = "*"
+pycodestyle = "*"
 
 [requires]
 python_version = "3.7"
