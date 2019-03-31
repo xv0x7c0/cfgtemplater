@@ -4,6 +4,7 @@
 """Defiles entry point for CLI
 """
 
+import ast
 import argparse
 import sys
 
@@ -80,7 +81,11 @@ def main():
                 final_variables.update(yaml_variables)
 
     if args.cli:
-        cli_variables = dict(pair.split("=") for pair in args.cli)
+        cli_variables = {}
+        for k, v in [pair.split("=") for pair in args.cli]:
+            value = ast.literal_eval(v)
+            cli_variables[k] = value 
+
         final_variables.update(cli_variables)
 
     try:
