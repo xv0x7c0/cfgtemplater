@@ -15,13 +15,15 @@ class BaseTemplate:
     """Base Template class
     """
 
-    YAML_SPLIT_RE = re.compile(r"""
+    YAML_SPLIT_RE = re.compile(
+        r"""
                                \A(?:^---[\n\r])
                                (?P<yaml>.*)
                                (?:^---[\n\r])
                                (?P<template>.*)
                                """,
-                               re.MULTILINE | re.DOTALL | re.VERBOSE)
+        re.MULTILINE | re.DOTALL | re.VERBOSE,
+    )
 
     def __init__(self, filepath):
         self.filepath = os.path.abspath(filepath)
@@ -46,7 +48,7 @@ class BaseTemplate:
         """Split given template in two parts: YAML front matter and JINJA2 part
         """
         try:
-            with open(self.filepath, 'r') as f:
+            with open(self.filepath, "r") as f:
                 text = f.read()
                 m = re.match(BaseTemplate.YAML_SPLIT_RE, text)
                 if m:

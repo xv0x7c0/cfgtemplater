@@ -30,7 +30,7 @@ class ConfigTemplate(BaseTemplate):
             loader=FileSystemLoader(self.directory),
             lstrip_blocks=True,
             trim_blocks=True,
-            undefined=StrictUndefined
+            undefined=StrictUndefined,
         )
 
     def init_default_extensions(self):
@@ -44,10 +44,10 @@ class ConfigTemplate(BaseTemplate):
         """
         self.defaults = {}
         if self.yaml:
-            if 'variables' in self.yaml.keys() and self.yaml['variables'] is not None:
-                for variable, attributes in self.yaml['variables'].items():
-                    if 'default' in attributes:
-                        self.defaults[variable] = attributes['default']
+            if "variables" in self.yaml.keys() and self.yaml["variables"] is not None:
+                for variable, attributes in self.yaml["variables"].items():
+                    if "default" in attributes:
+                        self.defaults[variable] = attributes["default"]
 
     def load_extension(self, module):
         """Load jinja2 extensions from a python module
@@ -69,5 +69,5 @@ class ConfigTemplate(BaseTemplate):
         """ Save rendered template in a file
         """
         attributes = attributes or {}
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(self.render(attributes))

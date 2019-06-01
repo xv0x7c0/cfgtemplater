@@ -14,9 +14,13 @@ def first_address(addr):
     """
     ip = ipaddress.ip_interface(addr)
     prefixlen = ip.network.prefixlen
-    version = re.sub('Interface', '', ip.__class__.__name__)
-    if any([(version == 'IPv4' and prefixlen == 32),
-            (version == 'IPv6' and prefixlen == 128)]):
+    version = re.sub("Interface", "", ip.__class__.__name__)
+    if any(
+        [
+            (version == "IPv4" and prefixlen == 32),
+            (version == "IPv6" and prefixlen == 128),
+        ]
+    ):
         return str(ip)
     return f"{next(ip.network.hosts())}/{prefixlen}"
 
@@ -27,9 +31,13 @@ def last_address(addr):
     """
     ip = ipaddress.ip_interface(addr)
     prefixlen = ip.network.prefixlen
-    version = re.sub('Interface', '', ip.__class__.__name__)
-    if any([(version == 'IPv4' and prefixlen == 32),
-            (version == 'IPv6' and prefixlen == 128)]):
+    version = re.sub("Interface", "", ip.__class__.__name__)
+    if any(
+        [
+            (version == "IPv4" and prefixlen == 32),
+            (version == "IPv6" and prefixlen == 128),
+        ]
+    ):
         return str(ip)
     return f"{list(ip.network.hosts())[-1]}/{prefixlen}"
 
@@ -75,10 +83,10 @@ def uncompress(addr):
     """Return the uncompressed form of an address, adding leading zeroes
     """
     ip = ipaddress.ip_interface(addr)
-    version = re.sub('Interface', '', ip.__class__.__name__)
-    if version == 'IPv4':
-        return '.'.join(map(lambda x: '%03d' % int(x), str(ip.ip).split('.')))
-    if version == 'IPv6':
+    version = re.sub("Interface", "", ip.__class__.__name__)
+    if version == "IPv4":
+        return ".".join(map(lambda x: "%03d" % int(x), str(ip.ip).split(".")))
+    if version == "IPv6":
         return ip.ip.exploded
 
 
@@ -86,14 +94,14 @@ def octets(addr):
     """Return a list of octets
     """
     ip = ipaddress.IPv4Interface(addr).ip
-    return list(map(int, str(ip).split('.')))
+    return list(map(int, str(ip).split(".")))
 
 
 def hextets(addr):
     """Return a list of hextets
     """
     ip = ipaddress.IPv6Interface(addr).ip
-    return ip.exploded.split(':')
+    return ip.exploded.split(":")
 
 
 def address(addr):

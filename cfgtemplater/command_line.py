@@ -26,41 +26,29 @@ def get_parser():
     parser = argparse.ArgumentParser(description=description)
 
     parser.add_argument(
-        '-y',
-        metavar="YAML",
-        dest='yaml',
-        help='YAML file',
-        action="append"
+        "-y", metavar="YAML", dest="yaml", help="YAML file", action="append"
     )
 
     parser.add_argument(
-        '-p',
-        metavar='KEY=VALUE',
-        dest='cli',
-        help='key/value pair',
-        action="append"
+        "-p", metavar="KEY=VALUE", dest="cli", help="key/value pair", action="append"
     )
 
     parser.add_argument(
-        '-e',
-        metavar='FILE',
-        dest='extensions',
-        help='Jinja2 extensions modules',
-        action='append'
+        "-e",
+        metavar="FILE",
+        dest="extensions",
+        help="Jinja2 extensions modules",
+        action="append",
     )
 
-    parser.add_argument(
-        'filepath',
-        metavar='TEMPLATE',
-        help='template'
-    )
+    parser.add_argument("filepath", metavar="TEMPLATE", help="template")
     return parser
 
 
 def load_module(filepath):
     """Return extension module
     """
-    loader = SourceFileLoader('extensions', filepath)
+    loader = SourceFileLoader("extensions", filepath)
     return loader.load_module()
 
 
@@ -80,9 +68,8 @@ def main():
 
         if args.yaml:
             for yaml_file in args.yaml:
-                with open(yaml_file, 'r') as f:
-                    yaml_variables = yaml.load(f.read(),
-                                               Loader=yaml.FullLoader)
+                with open(yaml_file, "r") as f:
+                    yaml_variables = yaml.load(f.read(), Loader=yaml.FullLoader)
                     final_variables.update(yaml_variables)
 
         if args.cli:
@@ -92,8 +79,11 @@ def main():
                     value = ast.literal_eval(v)
                     cli_variables[k] = value
                 except ValueError:
-                    raise LiteralError("Malformed Python literal \
-                                       '%s' in '%s=%s'" % (k, k, v))
+                    raise LiteralError(
+                        "Malformed Python literal \
+                                       '%s' in '%s=%s'"
+                        % (k, k, v)
+                    )
 
             final_variables.update(cli_variables)
 
