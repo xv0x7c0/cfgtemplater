@@ -7,13 +7,12 @@ name = "pypi"
 jinja2 = ">=2.10"
 ipaddress = ">=1.0.22"
 pyyaml = ">=5.1"
-pytest-cov = "*"
 
 [dev-packages]
 pytest = "*"
 pylint = "*"
 isort = "*"
-pycodestyle = "*"
+black = "*"
 pytest-cov = "*"
 
 [requires]
