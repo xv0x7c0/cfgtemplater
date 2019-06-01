@@ -44,7 +44,7 @@ class ConfigTemplate(BaseTemplate):
         """
         self.defaults = {}
         if self.yaml:
-            if 'variables' in self.yaml.keys():
+            if 'variables' in self.yaml.keys() and self.yaml['variables'] is not None:
                 for variable, attributes in self.yaml['variables'].items():
                     if 'default' in attributes:
                         self.defaults[variable] = attributes['default']
